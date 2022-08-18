@@ -17,22 +17,24 @@ public class CreateAdjacencyList {
     private static Map<Character, List<Character>> createAdjacencyList(List<AbstractMap.SimpleEntry<Character, Character>> edgeList) {
         Map<Character, List<Character>> adjacencyList = new HashMap<>();
         for (AbstractMap.SimpleEntry<Character, Character> edge : edgeList) {
-            if (adjacencyList.containsKey(edge.getKey())) {
-                List<Character> neighbours = new ArrayList<>(adjacencyList.get(edge.getKey()));
-                neighbours.add(edge.getValue());
-                adjacencyList.put(edge.getKey(), neighbours);
-            } else {
-                adjacencyList.put(edge.getKey(), List.of(edge.getValue()));
-            }
 
-            if (adjacencyList.containsKey(edge.getValue())) {
-                List<Character> neighbours = new ArrayList<>(adjacencyList.get(edge.getValue()));
-                neighbours.add(edge.getKey());
-                adjacencyList.put(edge.getValue(), neighbours);
-            } else {
-                adjacencyList.put(edge.getValue(), List.of(edge.getKey()));
-            }
+            // Add edge
+            addEdge(adjacencyList, edge.getKey(), edge.getValue());
+
+            // Add Reverse Edge
+            addEdge(adjacencyList, edge.getValue(), edge.getKey());
+
         }
         return  adjacencyList;
+    }
+
+    private static void addEdge(Map<Character, List<Character>> adjacencyList, Character source, Character destination) {
+        if (adjacencyList.containsKey(source)) {
+            List<Character> neighbours = new ArrayList<>(adjacencyList.get(source));
+            neighbours.add(destination);
+            adjacencyList.put(source, neighbours);
+        } else {
+            adjacencyList.put(source, List.of(destination));
+        }
     }
 }
