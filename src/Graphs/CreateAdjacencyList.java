@@ -1,20 +1,24 @@
 package Graphs;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreateAdjacencyList {
     public static void main(String[] args) {
-        
+        List<AbstractMap.SimpleEntry<Character, Character>> edgeList = new ArrayList<>();
+        edgeList.add(new AbstractMap.SimpleEntry<>('i', 'j'));
+        edgeList.add(new AbstractMap.SimpleEntry<>('k', 'i'));
+        edgeList.add(new AbstractMap.SimpleEntry<>('m', 'k'));
+        edgeList.add(new AbstractMap.SimpleEntry<>('k', 'l'));
+        edgeList.add(new AbstractMap.SimpleEntry<>('o', 'n'));
+
+        System.out.println(createAdjacencyList(edgeList));
     }
 
-    private Map<Character, List<Character>> createAdjacencyList(List<AbstractMap.SimpleEntry<Character, Character>> edgeList) {
+    private static Map<Character, List<Character>> createAdjacencyList(List<AbstractMap.SimpleEntry<Character, Character>> edgeList) {
         Map<Character, List<Character>> adjacencyList = new HashMap<>();
         for (AbstractMap.SimpleEntry<Character, Character> edge : edgeList) {
             if (adjacencyList.containsKey(edge.getKey())) {
-                List<Character> neighbours = adjacencyList.get(edge.getKey());
+                List<Character> neighbours = new ArrayList<>(adjacencyList.get(edge.getKey()));
                 neighbours.add(edge.getValue());
                 adjacencyList.put(edge.getKey(), neighbours);
             } else {
@@ -22,7 +26,7 @@ public class CreateAdjacencyList {
             }
 
             if (adjacencyList.containsKey(edge.getValue())) {
-                List<Character> neighbours = adjacencyList.get(edge.getValue());
+                List<Character> neighbours = new ArrayList<>(adjacencyList.get(edge.getValue()));
                 neighbours.add(edge.getKey());
                 adjacencyList.put(edge.getValue(), neighbours);
             } else {
